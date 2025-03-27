@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <link href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Urbanist:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+
+
+</head>
+<body>
+    <div class="AA">
+        <h5>CUSTOMER CHOICE</h5>
+        <h1>Hot Selling Products</h1>
+    </div>
+    <div class="main">
+        <button>Quick Cart</button>
+    </div>
+
+    <script>
+        let main = document.querySelector(".main")
+        let imgarray = ["https://primposh-theme.myshopify.com/cdn/shop/files/ProductBase29.jpg?v=1718363218&width=533","https://primposh-theme.myshopify.com/cdn/shop/files/ProductBase21.jpg?v=1718362537&width=533","https://primposh-theme.myshopify.com/cdn/shop/files/ProductBase25.jpg?v=1718362908&width=533","https://primposh-theme.myshopify.com/cdn/shop/files/ProductBase17.jpg?v=1718362341&width=533"]
+        for (let i = 0; i <= 3; i++) {
+          let div = document.createElement("div")
+          div.setAttribute("class","box")
+      
+          main.appendChild(div)
+      
+          let img = document.createElement("img")
+          img.setAttribute("src",imgarray[i])
+          img.setAttribute("class","imgbox")
+      
+          div.appendChild(img)
+      
+          // Set background image
+          div.body.style.backgroundImage = "url('background.jpg')";
+      
+          // Set background image properties
+          div.body.style.backgroundSize = "cover";
+          div.body.style.backgroundRepeat = "no-repeat";
+          div.body.style.backgroundPosition = "center";
+        }
+</script>
+
+</body>
+</html>

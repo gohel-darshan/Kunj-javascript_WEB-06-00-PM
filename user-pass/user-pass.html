@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Authentication</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .container {
+            background: white;
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            border-radius: 5px;
+            width: 300px;
+            text-align: center;
+        }
+        input {
+            width: 100%;
+            padding: 8px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        button {
+            background: blue;
+            color: white;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        a {
+            display: block;
+            margin-top: 10px;
+            text-decoration: none;
+            color: blue;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="login-page">
+        <h2>Login</h2>
+        <input type="text" id="username" placeholder="Username" required>
+        <input type="password" id="password" placeholder="Password" required>
+        <button onclick="login()">Login</button>
+        <a href="#" onclick="showForgotPassword()">Forgot Password?</a>
+    </div>
+    
+    <div class="container" id="forgot-password-page" style="display: none;">
+        <h2>Forgot Password</h2>
+        <input type="email" id="email" placeholder="Enter your email" required>
+        <button onclick="sendResetLink()">Send Reset Link</button>
+        <a href="#" onclick="showLogin()">Back to Login</a>
+    </div>
+    
+    <div class="container" id="reset-password-page" style="display: none;">
+        <h2>Reset Password</h2>
+        <input type="password" id="old-password" placeholder="Old Password" required>
+        <input type="password" id="new-password" placeholder="New Password" required>
+        <input type="password" id="confirm-password" placeholder="Confirm Password" required>
+        <button onclick="resetPassword()">Reset Password</button>
+        <a href="#" onclick="showLogin()">Back to Login</a>
+    </div>
+    
+    <script>
+        function showForgotPassword() {
+            document.getElementById('login-page').style.display = 'none';
+            document.getElementById('forgot-password-page').style.display = 'block';
+        }
+
+        function showLogin() {
+            document.getElementById('forgot-password-page').style.display = 'none';
+            document.getElementById('reset-password-page').style.display = 'none';
+            document.getElementById('login-page').style.display = 'block';
+        }
+
+        function sendResetLink() {
+            alert('Reset link sent to your email!');
+            showLogin();
+        }
+
+        function resetPassword() {
+            let newPassword = document.getElementById('new-password').value;
+            let confirmPassword = document.getElementById('confirm-password').value;
+            
+            if (newPassword === confirmPassword) {
+                alert('Password has been reset successfully!');
+                showLogin();
+            } else {
+                alert('Passwords do not match!');
+            }
+        }
+    </script>
+</body>
+</html>

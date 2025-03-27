@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<style>
+.main
+{
+    height: 100vh;
+    width: 100%;
+    background-color: black;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
+.box
+{
+    width: 350px;
+    height: 600px;
+    border: 5px solid red;
+}
+
+.imgbox
+{
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+</style>
+<body>
+    <div class="main">
+        
+    </div>
+</body>
+<script>
+  let main = document.querySelector(".main")
+  let imgarray = ["https://imgs.search.brave.com/J9krc55IrN5aZxB2e2qjkBpIfXcQIQxBulWt0nq3i5Q/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90My5m/dGNkbi5uZXQvanBn/LzAzLzE4LzE0LzA4/LzM2MF9GXzMxODE0/MDg4Ml9zZVltYm93/TmxKTUZRcW9CR3hV/TEhVaUlWQjkydXow/Yy5qcGc","https://imgs.search.brave.com/3qGFp2F93rAyVb-dFmgc-7YvMdJz2Cldp7Bx5wYsBw4/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzA0LzE3LzI4Lzkz/LzM2MF9GXzQxNzI4/OTM0Nl9ocnMwRDRM/bzhkU3YzYVdEcWtR/cFJCMFU5UGJ0Rlg2/bi5qcGc","https://imgs.search.brave.com/de2yEZdf6R7_Do7g8ipu9o8_ou6xqxVl65sX0BGZFyk/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly9pbWcu/ZnJlZXBpay5jb20v/ZnJlZS1waG90by9t/b2Rlcm4tZXF1aXBw/ZWQtY29tcHV0ZXIt/bGFiXzIzLTIxNDky/NDEyNTkuanBnP3Nl/bXQ9YWlzX2h5YnJp/ZA","https://imgs.search.brave.com/VY8Bhegrtcj-GZg1d0WaKIAXsAvzKwrOMbsX9xi7xpg/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90NC5m/dGNkbi5uZXQvanBn/LzAyLzgyLzQ0LzYx/LzM2MF9GXzI4MjQ0/NjE1NV9xc1NlZFhZ/RGJpQjNVbnc1TEVs/WmVQYkR2VWhSUWRO/Ny5qcGc","https://imgs.search.brave.com/JhBDHe7pxsOKGK80qObplYysSwhqrGH3rCx7MboxP6U/rs:fit:860:0:0:0/g:ce/aHR0cHM6Ly90aHVt/YnMuZHJlYW1zdGlt/ZS5jb20vYi9kaWdp/dGFsLWluZm9ybWF0/aW9uLXRlY2hub2xv/Z3ktYmluYXJ5LXdv/cmxkLWNvbmNlcHQt/Y29tcHV0ZXItZ2Vu/ZXJhdGVkLWJhY2tn/cm91bmQtZ3JhcGhp/Y3MtZGlnaXRhbC1p/bmZvcm1hdGlvbi10/ZWNobm9sb2d5LWJp/bmFyeS0xMzQ1NjM2/NDkuanBn"]
+
+  for (let i = 0; i <= 4; i++) {
+    let div = document.createElement("div")
+    div.setAttribute("class","box")
+
+    main.appendChild(div)
+
+    let img = document.createElement("img")
+    img.setAttribute("src",imgarray[i])
+    img.setAttribute("class","imgbox")
+
+    div.appendChild(img)
+  }
+</script>
+</html>

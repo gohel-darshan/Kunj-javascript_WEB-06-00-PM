@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<!-- <style>
+    .box2
+    {
+        height: 300px;
+        width: 300px;
+        border: 2px solid black;
+    }
+</style> -->
+<body>
+    <script>
+
+        let box = [1,2,3,4,5]
+        box.forEach((i)=>{
+            let box = document.createElement("i")
+            box.setAttribute{"src",".box2"};
+        })
+    </script>
+</body>
+</html>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>50 Dynamic Divs</title>
+    <style>
+        /* Parent div .box ni CSS */
+        .box {
+            height: auto;
+            width: 100%;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+
+        /* Child div ni CSS */
+        .child-div {
+            height: 150px;
+            width: 200px;
+            border: 3px solid black;
+            margin: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Parent div -->
+    <div class="box"></div>
+
+    <script>
+        // Parent div ne select kariye
+        let parentDiv = document.querySelector(".box");
+
+        // Array.from thi 50 elements ni array create karvi
+        let elements = Array.from({ length: 50 });
+
+        // forEach function thi div create karva
+        elements.forEach(() => {
+            let child = document.createElement("div"); // navo div create karo
+            child.setAttribute("class", "child-div"); // CSS class add karo
+            parentDiv.appendChild(child); // Parent div ma append karo
+        });
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>count</h1>
+    <p id="c">0</p>
+
+    <button onclick="plus()">click to +</button>
+    <button onclick="min()">click to -</button>
+
+</body>
+<script>
+    let c = document.getElementById("c")
+    count=0
+
+    function plus(){
+        if(count>=50)
+        {
+            alert("only value enter less then 50")
+        }
+        else
+        {
+            count++
+            c.innerHTML=count
+        }
+    }
+
+    function min(){
+        if(count<=0)
+        {
+            alert("negetive value is not allowed")
+        }
+        else
+        {
+            count--
+            c.innerHTML=count
+        }
+    }
+</script>
+</html>

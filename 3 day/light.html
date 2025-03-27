@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width>, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+    .box{
+        width: 300px;
+        height: 450px;
+        border: 5px solid red;
+    }
+    .bg{
+        background-color: yellow;
+        border-radius: 50%;
+    }
+</style>
+<body>
+    <div class="box" id="box"></div>
+    <button class="btn1" onclick="on()">click me</button>
+    <button class="btn2" onclick="off()">remove me</button>
+
+    <script>
+
+        let btn1 = document.getElementById("btn1")
+        let btn2 = document.getElementById("btn1")
+        let box = document.getElementById("box")
+
+        btn1.addEventListener("click",function(){
+            box.setAttribute("class","box bg")
+        })
+
+        btn2.addEventListener("click",function(){
+            box.setAttribute("class","box")
+        })
+
+
+        // function on(){
+        //     let box = document.getElementById("box")
+        //     box.style.borderRadius=(50)
+        //     box.style.backgroundColor = "red"
+        // }
+        // function off(){
+        //     let box = document.getElementById("box")
+        //     box.style.backgroundColor = "blue"
+        //     box.style.borderRadius=(50)
+        // }
+    </script>
+</body>
+</html>
