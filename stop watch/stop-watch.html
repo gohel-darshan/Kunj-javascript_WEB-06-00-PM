@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #282c34;
+            color: white;
+            font-family: Arial, sans-serif;
+        }
+        .container {
+            text-align: center;
+            background: #444;
+            padding: 20px;
+            border-radius: 10px;
+        }
+        .time {
+            font-size: 2em;
+            margin-bottom: 20px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            border: none;
+            cursor: pointer;
+            border-radius: 5px;
+        }
+        .start { background: green; color: white; }
+        .stop { background: red; color: white; }
+        .reset { background: gray; color: white; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="time" id="display">00:00:00</div>
+        <button class="start" onclick="startTimer()">Start</button>
+        <button class="stop" onclick="stopTimer()">Stop</button>
+        <button class="reset" onclick="resetTimer()">Reset</button>
+    </div>
+    <script>
+        let timer;
+        let seconds = 0, minutes = 0, hours = 0;
+        let running = false;
+
+        function startTimer() {
+            if (!running) {
+                running = true;
+                timer = setInterval(updateTime, 1000);
+            }
+        }
+
+        function stopTimer() {
+            running = false;
+            clearInterval(timer);
+        }
+
+        function resetTimer() {
+            stopTimer();
+            seconds = 0; minutes = 0; hours = 0;
+            document.getElementById("display").innerText = "00:00:00";
+        }
+
+        function updateTime() {
+            seconds++;
+            if (seconds === 60) {
+                seconds = 0;
+                minutes++;
+            }
+            if (minutes === 60) {
+                minutes = 0;
+                hours++;
+            }
+            document.getElementById("display").innerText = 
+                (hours < 10 ? "0" + hours : hours) + ":" +
+                (minutes < 10 ? "0" + minutes : minutes) + ":" +
+                (seconds < 10 ? "0" + seconds : seconds);
+        }
+    </script>
+</body>
+</html>
+<!-- <!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            height: 0px;
+            width: 0px;
+            box-sizing: border-box;
+        }
+
+        .container{
+            height: 100%;
+            width: 100vh;
+            background-color: blue;
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        button{
+            height: 100px;
+            width: 100px;
+            background-color: red;
+            border: none;
+            cursor: pointer;
+            font-size: 20px;
+            margin: 10px;
+            transition: background-color 0.5s;
+            outline: none;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 1;
+            border-radius: 50%;
+            transform: scale(0);
+            opacity: 0;
+            animation: rotate 2s infinite linear;
+            animation-delay: 1s;
+        }
+    </style>
+</head>
+<body>
+    <div id="container">
+        <button>start</button>
+        <button>Stop</button>
+        <button>Reset</button>
+    </div>
+</body>
+</html> -->
