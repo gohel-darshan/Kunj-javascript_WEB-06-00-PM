@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gradient Color Changer</title>
+    <style>
+        *
+        {
+            margin: 0px;
+            padding: 0px;
+            box-sizing: border-box;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            flex-direction: column;
+            transition: background 0.5s ease-in-out;
+        }
+
+        #colorbtn {
+            padding: 10px 20px;
+            background-color: black;
+            color: white;
+            font-size: 15px;
+            letter-spacing: 1px;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s ease-in-out;
+        }
+
+        #colorbtn:hover {
+            background-color: gray;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <button id="colorbtn">Click Me</button>
+    </div>
+
+    <script>
+        function getRandomColor() {
+            let letters = "0123456789ABCDEF"; // '0' ઉમેર્યું
+            let color = "#";
+            for (let i = 0; i < 6; i++) {  // Loop i = 0 થી શરૂ
+                color += letters[Math.floor(Math.random() * 16)];
+            }
+            return color;
+        }
+
+        document.getElementById("colorbtn").addEventListener("click", function() {
+            document.body.style.transition = "background 0.5s ease-in-out";
+            document.body.style.background = `linear-gradient(to right, ${getRandomColor()}, ${getRandomColor()}, ${getRandomColor()})`;
+        });
+    </script>
+</body>
+</html>

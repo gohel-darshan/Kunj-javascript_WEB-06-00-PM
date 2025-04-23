@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cryptocurrency Data</title>
+    <style>
+        body {
+            background: #1a1a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        h1 {
+            color: #4CAF50;
+            text-align: center;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #45a049;
+        }
+        .crypto-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .crypto-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 15px;
+            width: 200px;
+            text-align: center;
+        }
+        .crypto-name {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #4CAF50;
+        }
+        .crypto-info {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        .loading {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        .error {
+            color: #ff6b6b;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .nav-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .price-up {
+            color: #4CAF50;
+        }
+        .price-down {
+            color: #ff6b6b;
+        }
+    </style>
+</head>
+<body>
+    <h1>Cryptocurrency Data</h1>
+    
+    <div class="controls">
+        <button id="loadCrypto">Load Crypto Data</button>
+        <button id="clearCrypto">Clear</button>
+    </div>
+    
+    <div class="container">
+        <div id="loading" class="loading" style="display:none;">Loading cryptocurrency data...</div>
+        <div id="error" class="error" style="display:none;"></div>
+        <div id="cryptoList" class="crypto-container"></div>
+    </div>
+    
+    <div class="nav-buttons">
+        <button onclick="window.location.href='index.html'">Back to Form</button>
+    </div>
+    
+    <script>
+        document.getElementById('loadCrypto').addEventListener('click', fetchCryptoData);
+        document.getElementById('clearCrypto').addEventListener('click', clearCryptoData);
+        
+        function fetchCryptoData() {
+            // Show loading indicator
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('cryptoList').innerHTML = '';
+            
+            // Fetch cryptocurrency data from the CoinDCX API
+            fetch('https://api.coindcx.com/exchange/ticker')
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Network response was not ok');
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    // Hide loading indicator
+                    document.getElementById('loading').style.display = 'none';
+                    
+                    // Check if we have data
+                    if (data && Array.isArray(data) && data.length > 0) {
+                        // Display each cryptocurrency
+                        data.forEach(crypto => {
+                            const cryptoCard = document.createElement('div');
+                            cryptoCard.className = 'crypto-card';
+                            
+                            // Create cryptocurrency name
+                            const name = document.createElement('div');
+                            name.className = 'crypto-name';
+                            name.textContent = crypto.market || 'Unknown';
+                            
+                            // Create cryptocurrency info
+                            const price = document.createElement('div');
+                            price.className = 'crypto-info';
+                            price.textContent = `Price: ₹${crypto.last_price || 'N/A'}`;
+                            
+                            const change = document.createElement('div');
+                            change.className = 'crypto-info';
+                            const changePercent = parseFloat(crypto.change_percent || 0);
+                            const changeClass = changePercent >= 0 ? 'price-up' : 'price-down';
+                            change.innerHTML = `Change: <span class="${changeClass}">${changePercent.toFixed(2)}%</span>`;
+                            
+                            const volume = document.createElement('div');
+                            volume.className = 'crypto-info';
+                            volume.textContent = `Volume: ${crypto.volume || 'N/A'}`;
+                            
+                            // Add elements to card
+                            cryptoCard.appendChild(name);
+                            cryptoCard.appendChild(price);
+                            cryptoCard.appendChild(change);
+                            cryptoCard.appendChild(volume);
+                            
+                            // Add card to container
+                            document.getElementById('cryptoList').appendChild(cryptoCard);
+                        });
+                    } else {
+                        document.getElementById('error').textContent = 'No cryptocurrency data found';
+                        document.getElementById('error').style.display = 'block';
+                    }
+                })
+                .catch(error => {
+                    // Hide loading, show error
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('error').textContent = 'Error loading cryptocurrency data: ' + error.message;
+                    document.getElementById('error').style.display = 'block';
+                });
+        }
+        
+        function clearCryptoData() {
+            document.getElementById('cryptoList').innerHTML = '';
+            document.getElementById('error').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 
+

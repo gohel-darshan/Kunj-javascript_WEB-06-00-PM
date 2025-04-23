@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.js"></script>
+    <style>
+        body { background: #1a1a1a; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; font-family: Arial; }
+        .container { background: rgba(255,255,255,0.1); padding: 30px; border-radius: 10px; width: 90%; max-width: 400px; }
+        input { width: 100%; padding: 10px; margin: 10px 0; border: none; border-radius: 5px; background: rgba(255,255,255,0.05); color: white; }
+        button { width: 100%; padding: 10px; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .error { color: red; font-size: 12px; }
+        .success { color: #4CAF50; font-size: 14px; margin-top: 10px; }
+        .loading { display: none; text-align: center; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <form id="myform">
+            <input type="text" name="name" placeholder="Name" id="name">
+            <input type="email" name="email" placeholder="Email" id="email">
+            <input type="password" name="password" placeholder="Password" id="pass">
+            <button type="submit">Submit</button>
+        </form>
+        <div id="loading" class="loading">Sending data to server...</div>
+        <div id="success" class="success" style="display:none;">Data sent successfully!</div>
+        <div id="error" class="error" style="display:none;"></div>
+    </div>
+    <script>
+        $(document).ready(function() {
+            $("#myform").validate({
+                rules: {
+                    name: { required: true, minlength: 3 },
+                    email: { required: true, email: true },
+                    password: { required: true, minlength: 8 }
+                },
+                messages: {
+                    name: { required: "Name required", minlength: "Min 3 chars" },
+                    email: { required: "Email required", email: "Valid email needed" },
+                    password: { required: "Password required", minlength: "Min 8 chars" }
+                },
+                submitHandler: function(form) {
+                    // Show loading indicator
+                    $("#loading").show();
+                    $("#success").hide();
+                    $("#error").hide();
+                    
+                    // Get form data
+                    const formData = {
+                        name: $("#name").val(),
+                        email: $("#email").val(),
+                        password: $("#pass").val()
+                    };
+                    
+                    // Store in localStorage
+                    localStorage.setItem("name1", formData.name);
+                    localStorage.setItem("name2", formData.email);
+                    localStorage.setItem("name3", formData.password);
+
+                    // Send data to API
+                    fetch('https://jsonplaceholder.typicode.com/posts', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData)
+                    })
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Hide loading, show success
+                        $("#loading").hide();
+                        $("#success").show();
+                        
+                        // Redirect after a short delay
+                        setTimeout(() => {
+                            window.location.href = "index1.html";
+                        }, 1500);
+                    })
+                    .catch(error => {
+                        // Hide loading, show error
+                        $("#loading").hide();
+                        $("#error").text("Error: " + error.message).show();
+                        
+                        // Still redirect to show the data locally
+                        setTimeout(() => {
+                            window.location.href = "index1.html";
+                        }, 2000);
+                    });
+                    
+                    return false; // Prevent default form submission
+                }
+            });
+        });
+    </script>
+</body>
+</html>

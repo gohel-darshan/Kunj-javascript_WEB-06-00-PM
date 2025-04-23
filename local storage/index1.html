@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Welcome</title>
+    <style>
+        body { background: #1a1a1a; color: white; font-family: Arial; margin: 0; padding: 20px; }
+        .container { max-width: 400px; margin: 0 auto; background: rgba(255,255,255,0.1); padding: 20px; border-radius: 10px; }
+        .detail { display: flex; justify-content: space-between; margin: 10px 0; padding: 10px; background: rgba(255,255,255,0.05); border-radius: 5px; }
+        .label { color: #4CAF50; font-weight: bold; }
+        .btn { width: 100%; padding: 10px; margin: 5px 0; background: #4CAF50; color: white; border: none; border-radius: 5px; cursor: pointer; }
+        .btn.secondary { background: rgba(255,255,255,0.1); }
+        .loading { text-align: center; margin: 20px 0; }
+        .error { color: #ff6b6b; text-align: center; margin: 10px 0; }
+    </style>
+</head>
+<body>
+<div class="container">
+        <h2>User Details</h2>
+        <div id="loading" class="loading">Loading data...</div>
+        <div id="error" class="error" style="display:none;"></div>
+        <div id="userData" style="display:none;">
+            <div class="detail">
+                <span class="label">Name:</span>
+                <span id="displayName">Loading...</span>
+            </div>
+            <div class="detail">
+                <span class="label">Email:</span>
+                <span id="displayEmail">Loading...</span>
+            </div>
+            <div class="detail">
+                <span class="label">Password:</span>
+                <span>••••••••</span>
+            </div>
+            <button class="btn" onclick="window.location.href='index.html'">Back to Form</button>
+            <button class="btn secondary" onclick="clearData()">Clear Data</button>
+        </div>
+</div>
+<script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // First try to get data from localStorage
+    const name = localStorage.getItem("name1");
+    const email = localStorage.getItem("name2");
+    const pass = localStorage.getItem("name3");
+
+            if (name && email) {
+                // Display data from localStorage
+                document.getElementById('displayName').textContent = name;
+                document.getElementById('displayEmail').textContent = email;
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('userData').style.display = 'block';
+            } else {
+                // If no localStorage data, try to fetch from API
+                fetch('https://jsonplaceholder.typicode.com/posts/1')
+                    .then(response => {
+                        if (!response.ok) {
+                            throw new Error('Network response was not ok');
+                        }
+                        return response.json();
+                    })
+                    .then(data => {
+                        // Display data from API
+                        document.getElementById('displayName').textContent = data.title || 'API Data';
+                        document.getElementById('displayEmail').textContent = 'user@example.com';
+                        document.getElementById('loading').style.display = 'none';
+                        document.getElementById('userData').style.display = 'block';
+                    })
+                    .catch(error => {
+                        // Show error message
+                        document.getElementById('loading').style.display = 'none';
+                        document.getElementById('error').textContent = 'Error loading data: ' + error.message;
+                        document.getElementById('error').style.display = 'block';
+                        
+                        // Show empty form
+                        document.getElementById('userData').style.display = 'block';
+                    });
+            }
+        });
+        
+        function clearData() {
+            // Clear localStorage
+            localStorage.removeItem("name1");
+            localStorage.removeItem("name2");
+            localStorage.removeItem("name3");
+            
+            // Update display
+            document.getElementById('displayName').textContent = 'Data cleared';
+            document.getElementById('displayEmail').textContent = 'Data cleared';
+        }
+</script>
+</body>
+</html>

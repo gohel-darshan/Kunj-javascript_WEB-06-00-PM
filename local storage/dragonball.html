@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <style>
+        body {
+            background: #1a1a1a;
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            max-width: 800px;
+            width: 100%;
+            background: rgba(255,255,255,0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+        h1 {
+            color: #ff9900;
+            text-align: center;
+        }
+        .controls {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+        button {
+            padding: 10px 20px;
+            background: #ff9900;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background: #ff8800;
+        }
+        .image-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 20px;
+            justify-content: center;
+        }
+        .image-card {
+            background: rgba(255,255,255,0.05);
+            border-radius: 10px;
+            padding: 15px;
+            width: 300px;
+            text-align: center;
+        }
+        .image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 10px;
+        }
+        .image-title {
+            font-size: 18px;
+            font-weight: bold;
+            margin: 10px 0;
+            color: #ff9900;
+        }
+        .image-info {
+            font-size: 14px;
+            margin: 5px 0;
+        }
+        .loading {
+            text-align: center;
+            margin: 20px 0;
+            font-size: 18px;
+        }
+        .error {
+            color: #ff6b6b;
+            text-align: center;
+            margin: 20px 0;
+        }
+        .nav-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .search-container {
+            margin: 20px 0;
+            width: 100%;
+            max-width: 400px;
+        }
+        .search-input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255,255,255,0.1);
+            color: white;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Image Gallery</h1>
+    
+    <div class="search-container">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search for images...">
+    </div>
+    
+    <div class="controls">
+        <button id="loadImages">Load Images</button>
+        <button id="clearImages">Clear</button>
+    </div>
+    
+    <div class="container">
+        <div id="loading" class="loading" style="display:none;">Loading images...</div>
+        <div id="error" class="error" style="display:none;"></div>
+        <div id="imageList" class="image-container"></div>
+    </div>
+    
+    <div class="nav-buttons">
+        <button onclick="window.location.href='index.html'">Back to Form</button>
+    </div>
+    
+    <script>
+        // Replace this with your Unsplash API key
+        const UNSPLASH_API_KEY = 'YOUR_UNSPLASH_API_KEY';
+        
+        document.getElementById('loadImages').addEventListener('click', fetchImages);
+        document.getElementById('clearImages').addEventListener('click', clearImages);
+        document.getElementById('searchInput').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                fetchImages();
+            }
+        });
+        
+        function fetchImages() {
+            // Show loading indicator
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('error').style.display = 'none';
+            document.getElementById('imageList').innerHTML = '';
+            
+            const searchQuery = document.getElementById('searchInput').value || 'nature';
+            
+            // Fetch images from Unsplash API
+            fetch(`https://api.unsplash.com/search/photos?query=${searchQuery}&per_page=10`, {
+                headers: {
+                    'Authorization': `Client-ID ${UNSPLASH_API_KEY}`
+                }
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Hide loading indicator
+                document.getElementById('loading').style.display = 'none';
+                
+                // Check if we have images
+                if (data && data.results && data.results.length > 0) {
+                    // Display each image
+                    data.results.forEach(photo => {
+                        const imageCard = document.createElement('div');
+                        imageCard.className = 'image-card';
+                        
+                        // Create image
+                        const img = document.createElement('img');
+                        img.className = 'image';
+                        img.src = photo.urls.regular;
+                        img.alt = photo.alt_description || 'Unsplash image';
+                        
+                        // Create title
+                        const title = document.createElement('div');
+                        title.className = 'image-title';
+                        title.textContent = photo.alt_description || 'Untitled';
+                        
+                        // Create info
+                        const photographer = document.createElement('div');
+                        photographer.className = 'image-info';
+                        photographer.textContent = `Photographer: ${photo.user.name}`;
+                        
+                        const likes = document.createElement('div');
+                        likes.className = 'image-info';
+                        likes.textContent = `Likes: ${photo.likes}`;
+                        
+                        // Add elements to card
+                        imageCard.appendChild(img);
+                        imageCard.appendChild(title);
+                        imageCard.appendChild(photographer);
+                        imageCard.appendChild(likes);
+                        
+                        // Add card to container
+                        document.getElementById('imageList').appendChild(imageCard);
+                    });
+                } else {
+                    document.getElementById('error').textContent = 'No images found';
+                    document.getElementById('error').style.display = 'block';
+                }
+            })
+            .catch(error => {
+                // Hide loading, show error
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('error').textContent = 'Error loading images: ' + error.message;
+                document.getElementById('error').style.display = 'block';
+            });
+        }
+        
+        function clearImages() {
+            document.getElementById('imageList').innerHTML = '';
+            document.getElementById('error').style.display = 'none';
+        }
+    </script>
+</body>
+</html> 
