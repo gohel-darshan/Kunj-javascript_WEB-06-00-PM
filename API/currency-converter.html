@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Currency Converter</title>
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
+        body { min-height: 100vh; display: flex; justify-content: center; align-items: center; background: #1a1a1a; }
+        #particles-js { position: fixed; width: 100%; height: 100%; z-index: 1; }
+        .container { width: 90%; max-width: 400px; position: relative; z-index: 2; }
+        .converter { background: rgba(255, 255, 255, 0.1); backdrop-filter: blur(10px); padding: 2rem; border-radius: 1rem; box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1); }
+        h1 { color: #fff; text-align: center; margin-bottom: 1.5rem; font-size: 1.8rem; }
+        .input-group { margin-bottom: 1rem; }
+        input, select { width: 100%; padding: 0.8rem; margin: 0.5rem 0; border: none; border-radius: 0.5rem; background: rgba(255, 255, 255, 0.1); color: #fff; }
+        select option { background: #2a2a2a; color: #fff; }
+        .currency-row { display: flex; gap: 1rem; align-items: center; }
+        .swap-btn { background: #4CAF50; color: white; border: none; padding: 0.8rem; border-radius: 0.5rem; cursor: pointer; transition: 0.3s; }
+        .swap-btn:hover { background: #45a049; transform: scale(1.05); }
+        .result { text-align: center; margin: 1.5rem 0; color: #fff; }
+        #converted-amount { font-size: 2rem; font-weight: bold; }
+        #rate-info { font-size: 0.9rem; opacity: 0.8; }
+        @media (max-width: 480px) { .currency-row { flex-direction: column; } }
+    </style>
+</head>
+<body>
+    <div id="particles-js"></div>
+    <div class="container">
+        <div class="converter">
+            <h1>Currency Converter</h1>
+            <div class="input-group">
+                    <input type="number" id="amount" placeholder="Enter amount" min="0">
+                <div class="currency-row">
+                    <select id="from"></select>
+                    <button class="swap-btn" onclick="swapCurrencies()">⇄</button>
+                    <select id="to"></select>
+                </div>
+            </div>
+            <div class="result">
+                <div id="converted-amount">0.00</div>
+                <div id="rate-info"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'https://api.exchangerate-api.com/v4/latest/';
+        const elements = {
+            amount: document.getElementById('amount'),
+            from: document.getElementById('from'),
+            to: document.getElementById('to'),
+            result: document.getElementById('converted-amount'),
+            rate: document.getElementById('rate-info')
+        };
+
+        // Initialize particles.js
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 80, density: { enable: true, value_area: 800 } },
+                color: { value: '#ffffff' },
+                shape: { type: 'circle' },
+                opacity: { value: 0.5 },
+                size: { value: 3 },
+                line_linked: { enable: true, distance: 150, color: '#ffffff', opacity: 0.4, width: 1 },
+                move: { enable: true, speed: 2 }
+            },
+            interactivity: {
+                detect_on: 'canvas',
+                events: { onhover: { enable: true, mode: 'grab' }, onclick: { enable: true, mode: 'push' } }
+            }
+        });
+
+        // Initialize currency converter
+        async function init() {
+            try {
+                const response = await fetch(`${API_URL}USD`);
+                const data = await response.json();
+                const currencies = Object.keys(data.rates);
+                
+                currencies.forEach(currency => {
+                    elements.from.add(new Option(currency, currency));
+                    elements.to.add(new Option(currency, currency));
+                });
+
+                elements.from.value = 'USD';
+                elements.to.value = 'EUR';
+                
+                // Add event listeners
+                [elements.amount, elements.from, elements.to].forEach(el => 
+                    el.addEventListener('input', convertCurrency));
+                
+                convertCurrency();
+            } catch (error) {
+                console.error('Error initializing:', error);
+            }
+        }
+
+        async function convertCurrency() {
+            const amount = parseFloat(elements.amount.value) || 0;
+            const from = elements.from.value;
+            const to = elements.to.value;
+
+            try {
+                const response = await fetch(`${API_URL}${from}`);
+                const data = await response.json();
+                const rate = data.rates[to];
+                const result = (amount * rate).toFixed(2);
+                
+                elements.result.textContent = result;
+                elements.rate.textContent = `1 ${from} = ${rate.toFixed(4)} ${to}`;
+            } catch (error) {
+                console.error('Error converting:', error);
+            }
+        }
+
+        function swapCurrencies() {
+            [elements.from.value, elements.to.value] = [elements.to.value, elements.from.value];
+            convertCurrency();
+        }
+
+        init();
+    </script>
+</body>
+</html> 

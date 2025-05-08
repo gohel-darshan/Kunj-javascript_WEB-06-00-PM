@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Car Manager Full</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(135deg, #a1c4fd, #c2e9fb);
+      padding: 2rem;
+    }
+    .container {
+      max-width: 700px;
+      margin: auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    }
+    input, button, select {
+      padding: 10px;
+      margin: 10px 0;
+      width: 100%;
+      font-size: 1rem;
+    }
+    button {
+      background: #007bff;
+      color: white;
+      border: none;
+      cursor: pointer;
+    }
+    button:hover {
+      background: #0056b3;
+    }
+    .output {
+      margin-top: 20px;
+      padding: 15px;
+      background: #e9ecef;
+      border-radius: 8px;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>🚘 Car Manager Full</h2>
+
+    <input type="text" id="brand" placeholder="Enter car brand" />
+    <input type="number" id="year" placeholder="Enter model year" />
+    <input type="number" id="price" placeholder="Enter price in ₹" />
+
+    <button onclick="saveCar()">💾 Save Car</button>
+    <button onclick="loadSavedCars()">📋 Load Cars</button>
+
+    <select id="car-select">
+      <option value="">-- Select a car --</option>
+    </select>
+    <button onclick="updateCar()">🔄 Update Car</button>
+    <button onclick="showDetails()">🔍 Show Details</button>
+    <button onclick="downloadAsPDF()">📄 Export to PDF</button>
+
+    <div class="output" id="output"></div>
+  </div>
+
+  <!-- jsPDF CDN -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+
+  <script>
+    class Car {
+      constructor({ brand, modelYear, price }) {
+        if (!brand || typeof brand !== "string") {
+          throw new Error("❌ Brand must be a non-empty string");
+        }
+        if (typeof modelYear !== "number" || modelYear < 1900 || modelYear > new Date().getFullYear()) {
+          throw new Error("❌ Invalid model year");
+        }
+        if (typeof price !== "number" || price <= 0) {
+          throw new Error("❌ Price must be a positive number");
+        }
+        this.brand = brand;
+        this.modelYear = modelYear;
+        this.price = price;
+      }
+
+      getAge() {
+        return new Date().getFullYear() - this.modelYear;
+      }
+
+      isVintage() {
+        return this.getAge() > 20;
+      }
+
+      calculateDepreciation(rate = 10) {
+        let value = this.price;
+        for (let i = 0; i < this.getAge(); i++) {
+          value -= (value * rate) / 100;
+        }
+        return value.toFixed(2);
+      }
+
+      calculateEMI(months, annualInterest = 10) {
+        const P = this.price;
+        const R = annualInterest / 12 / 100;
+        const N = months;
+        const emi = (P * R * Math.pow(1 + R, N)) / (Math.pow(1 + R, N) - 1);
+        return emi.toFixed(2);
+      }
+
+      getDetails() {
+        return `🔹 Brand        : ${this.brand}
+🔹 Model Year   : ${this.modelYear}
+🔹 Age          : ${this.getAge()} years
+🔹 Price        : ₹${this.price}
+🔹 Depreciated  : ₹${this.calculateDepreciation()}
+🔹 EMI (12 mo)  : ₹${this.calculateEMI(12)}
+🔹 Vintage Car  : ${this.isVintage() ? "✅ Yes" : "❌ No"}`;
+      }
+    }
+
+    let selectedIndex = null;
+
+    function saveCar() {
+      const brand = document.getElementById("brand").value.trim();
+      const year = parseInt(document.getElementById("year").value);
+      const price = parseFloat(document.getElementById("price").value);
+      if (!brand || isNaN(year) || isNaN(price)) {
+        alert("❌ Fill all fields correctly!");
+        return;
+      }
+
+      const cars = JSON.parse(localStorage.getItem("savedCars")) || [];
+      cars.push({ brand, modelYear: year, price });
+      localStorage.setItem("savedCars", JSON.stringify(cars));
+      alert("✅ Car saved!");
+      clearInputs();
+      loadSavedCars();
+    }
+
+    function loadSavedCars() {
+      const select = document.getElementById("car-select");
+      const cars = JSON.parse(localStorage.getItem("savedCars")) || [];
+      select.innerHTML = '<option value="">-- Select a car --</option>';
+
+      cars.forEach((car, index) => {
+        const option = document.createElement("option");
+        option.value = index;
+        option.text = `${car.brand} (${car.modelYear})`;
+        select.appendChild(option);
+      });
+
+      select.onchange = () => {
+        selectedIndex = select.value;
+        if (selectedIndex !== "") {
+          const selectedCar = cars[selectedIndex];
+          document.getElementById("brand").value = selectedCar.brand;
+          document.getElementById("year").value = selectedCar.modelYear;
+          document.getElementById("price").value = selectedCar.price;
+        }
+      };
+    }
+
+    function updateCar() {
+      if (selectedIndex === "" || selectedIndex === null) {
+        alert("⚠️ Select a car to update.");
+        return;
+      }
+
+      const brand = document.getElementById("brand").value.trim();
+      const year = parseInt(document.getElementById("year").value);
+      const price = parseFloat(document.getElementById("price").value);
+
+      if (!brand || isNaN(year) || isNaN(price)) {
+        alert("❌ Fill all fields correctly!");
+        return;
+      }
+
+      const cars = JSON.parse(localStorage.getItem("savedCars")) || [];
+      cars[selectedIndex] = { brand, modelYear: year, price };
+      localStorage.setItem("savedCars", JSON.stringify(cars));
+      alert("✅ Car updated!");
+      loadSavedCars();
+      clearInputs();
+    }
+
+    function showDetails() {
+      if (selectedIndex === "" || selectedIndex === null) {
+        alert("⚠️ Select a car first!");
+        return;
+      }
+
+      const cars = JSON.parse(localStorage.getItem("savedCars")) || [];
+      const car = new Car(cars[selectedIndex]);
+      document.getElementById("output").textContent = car.getDetails();
+    }
+
+    async function downloadAsPDF() {
+      if (selectedIndex === "" || selectedIndex === null) {
+        alert("⚠️ Select a car first!");
+        return;
+      }
+
+      const cars = JSON.parse(localStorage.getItem("savedCars")) || [];
+      const car = new Car(cars[selectedIndex]);
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+      doc.setFontSize(14);
+      doc.text(car.getDetails(), 10, 20);
+      doc.save(`${car.brand}_details.pdf`);
+    }
+
+    function clearInputs() {
+      document.getElementById("brand").value = "";
+      document.getElementById("year").value = "";
+      document.getElementById("price").value = "";
+      document.getElementById("car-select").value = "";
+      selectedIndex = null;
+      document.getElementById("output").textContent = "";
+    }
+  </script>
+</body>
+</html>

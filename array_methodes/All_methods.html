@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -8,9 +8,16 @@
 <body>
 </body>
 <script>
-    // let box1 = [10,20,30,40,50]
-    // let box2 = box1.map((i)=> i * i)
-    // console.log(box2)
+    let box1 = [
+    { id: 1, name: "Amit", marks: 75, city: "Surat", isPresent: true },
+    { id: 2, name: "Riya", marks: 32, city: "Ahmedabad", isPresent: false },
+    { id: 3, name: "Mehul", marks: 88, city: "Rajkot", isPresent: true },
+    { id: 4, name: "Pooja", marks: 45, city: "Vadodara", isPresent: true },
+    { id: 5, name: "Neha", marks: 29, city: "Surat", isPresent: false },
+    { id: 6, name: "Jay", marks: 59, city: "Ahmedabad", isPresent: true },
+    ];
+    //  let box2 = box1.map((i)=> i * i)
+    //  console.log(box2.marks * marks)
 
     // let box1 = [10,20,30,40,50]
     // let box2 = box1.filter((i)=> i > 20)
@@ -36,4 +43,61 @@
     // let box = [10,20,30,40,50]
     // console.log(box.some(i)=> i >20)
 </script>
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const students = [
+  { id: 1, name: "Amit", marks: 75, city: "Surat", isPresent: true },
+  { id: 2, name: "Riya", marks: 32, city: "Ahmedabad", isPresent: false },
+  { id: 3, name: "Mehul", marks: 88, city: "Rajkot", isPresent: true },
+  { id: 4, name: "Pooja", marks: 45, city: "Vadodara", isPresent: true },
+  { id: 5, name: "Neha", marks: 29, city: "Surat", isPresent: false },
+  { id: 6, name: "Jay", marks: 59, city: "Ahmedabad", isPresent: true },
+];
+
+// map(): Return an array of student names in uppercase.
+const upperCaseNames = students.map(student => student.name.toUpperCase());
+console.log("Uppercase Names:", upperCaseNames);
+
+// filter(): Get a list of students who passed (marks > 35).
+const passedStudents = students.filter(student => student.marks > 35);
+console.log("Passed Students:", passedStudents);
+
+// forEach(): Log attendance status of each student to the console.
+students.forEach(student => {
+  console.log(`${student.name} is ${student.isPresent ? "present" : "absent"}`);
+});
+
+// indexOf(): Find if a specific city (e.g., "Surat") exists in the city list.
+const cityList = students.map(student => student.city);
+const suratExists = cityList.indexOf("Surat") !== -1;
+console.log("Is Surat in city list?", suratExists);
+
+// findIndex(): Find the index of the first student from "Ahmedabad".
+const ahmedabadIndex = students.findIndex(student => student.city === "Ahmedabad");
+console.log("Index of first student from Ahmedabad:", ahmedabadIndex);
+
+// includes(): Check if "Mehul" exists in the list of student names.
+const studentNames = students.map(student => student.name);
+const hasMehul = studentNames.includes("Mehul");
+console.log("Is Mehul in the student list?", hasMehul);
+
+// every(): Check if every student has marks greater than 25.
+const allAbove25 = students.every(student => student.marks > 25);
+console.log("All students have marks > 25?", allAbove25);
+
+// some(): Check if any student is absent.
+const anyAbsent = students.some(student => !student.isPresent);
+console.log("Is any student absent?", anyAbsent);
+
+    </script>
+</body>
 </html>

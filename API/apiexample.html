@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+
+    <script>
+      function movie() {
+        let data = document.getElementById("data").value;
+        let main = document.querySelector(".container");
+
+        main.innerHTML = " "
+
+        let apiKey = "d6422d5bdb594d67bff132829251804";
+
+        fetch(
+                `https://api.weatherapi.com/v1/history.json?key=${API_KEY}&q=${city}&dt=${dateStr}`
+              )
+          .then((z) => z.json())
+          .then((d) => {
+            d.Search.forEach((element) => {
+              let card = document.createElement("img");
+              card.setAttribute("src", element.Poster);
+              main.appendChild(card);
+            });
+          });
+      }
+    </script>
+  </body>
+</html>
