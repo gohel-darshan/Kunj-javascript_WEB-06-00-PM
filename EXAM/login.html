@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <link rel="stylesheet" href="login-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Panel with Illustration -->
+        <div class="left-panel">
+            <div class="logo">
+                <img src="images/logo.svg" alt="Logo" class="logo-img">
+                <span>SecureApp</span>
+            </div>
+            <div class="illustration">
+                <img src="images/forgot-password.png" alt="Login Illustration" class="illustration-img">
+            </div>
+            <div class="left-content">
+                <h2>Welcome Back!</h2>
+                <p>Login to access your account and continue your journey</p>
+            </div>
+        </div>
+
+        <!-- Right Panel with Form -->
+        <div class="right-panel">
+            <div class="form-container">
+                <div class="form-header">
+                    <h1>Login to Your Account</h1>
+                    <p>Please enter your credentials to continue</p>
+                </div>
+                <form id="login-form">
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <div class="input-container">
+                            <i class="fas fa-envelope"></i>
+                            <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                        </div>
+                        <div class="error-message" id="email-error"></div>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="input-container">
+                            <i class="fas fa-lock"></i>
+                            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                            <i class="fas fa-eye toggle-password" data-target="password"></i>
+                        </div>
+                        <div class="error-message" id="password-error"></div>
+                    </div>
+                    <div class="form-options">
+                        <div class="remember-me">
+                            <input type="checkbox" id="remember" name="remember">
+                            <label for="remember">Remember me</label>
+                        </div>
+                        <a href="index.html" class="forgot-password">Forgot Password?</a>
+                    </div>
+                    <button type="submit" class="primary-button">
+                        <span>Login</span>
+                        <i class="fas fa-arrow-right"></i>
+                    </button>
+                </form>
+                
+                <div class="divider">
+                    <span>OR</span>
+                </div>
+                
+                <div class="social-login">
+                    <!-- Temporary notice about authentication configuration -->
+                    <div class="temp-notice">
+                        <p>To enable real Google and Apple authentication, please configure your client IDs as described in the README.md file.</p>
+                    </div>
+                    
+                    <!-- Social login buttons (demo mode) -->
+                    <button type="button" class="google-btn" id="google-login-fallback">
+                        <img src="images/google-icon.png" alt="Google" class="google-logo">
+                        <span>Continue with Google</span>
+                    </button>
+                    <button type="button" class="apple-btn" id="apple-login-fallback">
+                        <img src="images/apple-logo.svg" alt="Apple" class="apple-logo">
+                        <span>Continue with Apple</span>
+                    </button>
+                    
+                    <!-- Real authentication buttons (hidden until configured) -->
+                    <!-- Uncomment and configure these when you have your client IDs -->
+                    <!-- 
+                    <div id="g_id_onload"
+                         data-client_id="YOUR_GOOGLE_CLIENT_ID.apps.googleusercontent.com"
+                         data-context="signin"
+                         data-ux_mode="popup"
+                         data-callback="handleGoogleSignIn"
+                         data-auto_prompt="false">
+                    </div>
+                    
+                    <div class="g_id_signin"
+                         data-type="standard"
+                         data-shape="rectangular"
+                         data-theme="outline"
+                         data-text="signin_with"
+                         data-size="large"
+                         data-logo_alignment="left"
+                         data-width="400">
+                    </div>
+                    
+                    <div id="appleid-signin" class="apple-signin-button" data-color="black" data-border="true" data-type="sign in"></div>
+                    -->
+                </div>
+                
+                <div class="signup-link">
+                    <p>Don't have an account? <a href="#">Sign Up</a></p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- We'll load the real authentication APIs only when you've configured your client IDs -->
+    <!-- Uncomment these lines when you have your real client IDs -->
+    <!-- 
+    <script src="https://accounts.google.com/gsi/client" async defer></script>
+    <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
+    -->
+    
+    <script src="login.js"></script>
+</body>
+</html>

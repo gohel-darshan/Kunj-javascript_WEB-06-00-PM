@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Forgot Password UI</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            text-align: center;
+        }
+        .test-button {
+            padding: 10px 20px;
+            background-color: #4a6cf7;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px;
+        }
+        .test-button:hover {
+            background-color: #3a5ce5;
+        }
+        .instructions {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: left;
+            line-height: 1.6;
+        }
+        h1 {
+            color: #333;
+        }
+        h2 {
+            color: #555;
+            margin-top: 30px;
+        }
+        ul {
+            text-align: left;
+            margin-bottom: 30px;
+        }
+        li {
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Forgot Password UI Test Page</h1>
+    <p>Click the button below to open the Forgot Password UI:</p>
+    <a href="index.html" class="test-button">Open Forgot Password UI</a>
+    
+    <h2>Test Instructions:</h2>
+    <div class="instructions">
+        <h3>Step 1: Email Verification</h3>
+        <ul>
+            <li>Enter a valid email address (e.g., test@example.com)</li>
+            <li>Try submitting with an empty field (should show error)</li>
+            <li>Try submitting with an invalid email (should show error)</li>
+            <li>Submit with a valid email to proceed to Step 2</li>
+        </ul>
+        
+        <h3>Step 2: OTP Verification</h3>
+        <ul>
+            <li>Enter a 6-digit code (any 6 digits will work for this demo)</li>
+            <li>Try the "Resend" link (should show countdown timer)</li>
+            <li>Test backspace functionality between inputs</li>
+            <li>Test arrow key navigation between inputs</li>
+            <li>Try pasting a 6-digit code (should fill all inputs)</li>
+            <li>Submit with a complete code to proceed to Step 3</li>
+        </ul>
+        
+        <h3>Step 3: New Password</h3>
+        <ul>
+            <li>Test the password visibility toggle</li>
+            <li>Test password strength meter with different passwords</li>
+            <li>Try submitting with non-matching passwords (should show error)</li>
+            <li>Try submitting with a weak password (should show error)</li>
+            <li>Submit with a strong password to proceed to Step 4</li>
+        </ul>
+        
+        <h3>Step 4: Success</h3>
+        <ul>
+            <li>Verify the success message is displayed</li>
+            <li>Click "Go to Login" to return to the beginning</li>
+        </ul>
+    </div>
+    
+    <p>All functionality should work smoothly without page reloads.</p>
+</body>
+</html>

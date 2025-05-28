@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forgot Password</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <!-- Left Panel with Illustration -->
+        <div class="left-panel">
+            <div class="logo">
+                <img src="images/logo.svg" alt="Logo" class="logo-img">
+                <span>SecureApp</span>
+            </div>
+            <div class="illustration">
+                <img src="images/forgot-password.png" alt="Forgot Password Illustration" class="illustration-img">
+            </div>
+            <div class="left-content">
+                <h2>Password Recovery</h2>
+                <p>Secure and easy way to regain access to your account</p>
+            </div>
+        </div>
+
+        <!-- Right Panel with Form -->
+        <div class="right-panel">
+            <div class="form-container">
+                <!-- Step 1: Email Form -->
+                <div id="step-1" class="step active">
+                    <div class="back-button">
+                        <a href="login.html"><i class="fas fa-arrow-left"></i> Back to Login</a>
+                    </div>
+                    <div class="form-header">
+                        <h1>Forgot Password?</h1>
+                        <p>No worries, we'll send you reset instructions.</p>
+                    </div>
+                    <form id="email-form">
+                        <div class="form-group">
+                            <label for="email">Email</label>
+                            <div class="input-container">
+                                <i class="fas fa-envelope"></i>
+                                <input type="email" id="email" name="email" placeholder="Enter your email" required>
+                            </div>
+                            <div class="error-message" id="email-error"></div>
+                        </div>
+                        <button type="submit" class="primary-button">
+                            <span>Reset Password</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Step 2: Verification Code -->
+                <div id="step-2" class="step">
+                    <div class="back-button">
+                        <a href="#" id="back-to-email"><i class="fas fa-arrow-left"></i> Back to Email</a>
+                    </div>
+                    <div class="form-header">
+                        <h1>Verification Code</h1>
+                        <p>We've sent a code to your email. Please enter it below.</p>
+                    </div>
+                    <form id="verification-form">
+                        <div class="form-group">
+                            <label for="verification-code">Verification Code</label>
+                            <div class="otp-container">
+                                <input type="number" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" required>
+                                <input type="number" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" required>
+                                <input type="number" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" required>
+                                <input type="number" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" required>
+                                <input type="number" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" required>
+                                <input type="number" inputmode="numeric" pattern="[0-9]*" maxlength="1" class="otp-input" required>
+                            </div>
+                            <div class="error-message" id="verification-error"></div>
+                            <div class="resend-code">
+                                <span>Didn't receive the code?</span>
+                                <a href="#" id="resend-code">Resend</a>
+                                <span id="countdown" class="hidden">Resend in <span id="timer">60</span>s</span>
+                            </div>
+                        </div>
+                        <button type="submit" class="primary-button">
+                            <span>Verify Code</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Step 3: New Password -->
+                <div id="step-3" class="step">
+                    <div class="back-button">
+                        <a href="#" id="back-to-verification"><i class="fas fa-arrow-left"></i> Back to Verification</a>
+                    </div>
+                    <div class="form-header">
+                        <h1>Reset Password</h1>
+                        <p>Create a new password for your account</p>
+                    </div>
+                    <form id="new-password-form">
+                        <div class="form-group">
+                            <label for="new-password">New Password</label>
+                            <div class="input-container">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="new-password" name="new-password" placeholder="Enter new password" required>
+                                <i class="fas fa-eye toggle-password" data-target="new-password"></i>
+                            </div>
+                            <div class="password-strength">
+                                <div class="strength-meter">
+                                    <div class="strength-segment"></div>
+                                    <div class="strength-segment"></div>
+                                    <div class="strength-segment"></div>
+                                    <div class="strength-segment"></div>
+                                </div>
+                                <span class="strength-text">Password strength</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="confirm-password">Confirm Password</label>
+                            <div class="input-container">
+                                <i class="fas fa-lock"></i>
+                                <input type="password" id="confirm-password" name="confirm-password" placeholder="Confirm new password" required>
+                                <i class="fas fa-eye toggle-password" data-target="confirm-password"></i>
+                            </div>
+                            <div class="error-message" id="password-error"></div>
+                        </div>
+                        <button type="submit" class="primary-button">
+                            <span>Reset Password</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </form>
+                </div>
+
+                <!-- Step 4: Success Message -->
+                <div id="step-4" class="step">
+                    <div class="success-message">
+                        <img src="images/success.svg" alt="Success" class="success-icon">
+                        <h3>Password Reset Successful!</h3>
+                        <p>Your password has been reset successfully. You can now login with your new password.</p>
+                        <button class="primary-button" id="go-to-login">
+                            <span>Go to Login</span>
+                            <i class="fas fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
